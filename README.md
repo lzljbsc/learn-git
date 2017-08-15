@@ -1,4 +1,3 @@
-# learn-git		by Allan 15-08-2017
 learn git &amp; github
 ====
 
