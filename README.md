@@ -94,14 +94,45 @@ learn git &amp; github
 	命令git rm用于删除一个文件。
 	如果一个文件已经被提交到版本库，那么你永远不用担心误删，但是要小心，你只能恢复文件到最新版本，你会丢失最近一次提交后你修改的内容。
 		
+## 5.远程仓库：
+	注册 github 账户，以免费获得 Git 远程仓库。
+	本地 Git 仓库和 GitHub 仓库之间的传输是通过 SSH 加密的。
+	需要一点设置：
+	第1步：创建 SSH Key。
+	在用户主目录下，看看有没有 .ssh 目录，如果有，再看看这个目录下有没有 id_rsa 和 id_rsa.pub 这两个文件，如果已经有了，可直接跳到下一步。
+	如果没有，打开 Shell（Windows下打开 Git Bash），创建 SSH Key：ssh-keygen -t rsa -C "youremail@example.com"
+	id_rsa是私钥，不能泄露出去，id_rsa.pub是公钥，可以放心地告诉任何人。
+	第2步：登陆GitHub，打开“Account settings”，“SSH Keys”页面，
+	然后，点“Add SSH Key”，填上任意Title，在Key文本框里粘贴id_rsa.pub文件的内容。
 
+### 5.1添加远程库：
+	在 github 创建一个空仓库，在本地仓库运行命令：
+	git remote add origin git@server-name:path/repo-name.git
+	可以把本地库的所有内容推送到远程库上：
+	git push -u origin master
 	
+	要关联一个远程库，使用命令git remote add origin git@server-name:path/repo-name.git；
+	关联后，使用命令git push -u origin master第一次推送master分支的所有内容；
+	此后，每次本地提交后，只要有必要，就可以使用命令git push origin master推送最新修改。
+	
+### 5.2从远程库克隆
+	最好的方式是先创建远程库，然后，从远程库克隆。最好选择创建 README.md 文件。
+	用命令 git clone 克隆一个本地库：git clone git@server-name:path/repo-name.git
+	Git 支持多种协议，包括 https ，但通过 ssh 支持的原生 git 协议速度最快。
 
-
-
-
-
-
+## 6.分支管理
+	
+### 6.1创建与合并分支
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 
 
