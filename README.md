@@ -1,5 +1,6 @@
 # learn-git		by Allan 15-08-2017
 learn git &amp; github
+====
 
 主要是整理 廖雪峰 网站中 git 教程。在此感谢 廖老师 提供的教程。
 附 git 教程地址：https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000
