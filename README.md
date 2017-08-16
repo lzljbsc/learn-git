@@ -123,7 +123,84 @@ learn git &amp; github
 ## 6.分支管理
 	
 ### 6.1创建与合并分支
+	主分支， master ， HEAD 指向当前分支。
+	创建并切换到分支：git checkout -b branchname , git checkout 命令加上-b参数表示创建并切换。
+	创建分支： git branch branchname
+	切换分支： git checkout branchname
+	查看当前分支： git branch
+	合并分支： git merge branchname ，将 branchname 分支合并至当前分支
+	删除分支： git branch -d branchname
+	因为创建、合并和删除分支非常快，所以Git鼓励你使用分支完成某个任务，合并后再删掉分支，
+	这和直接在master分支上工作效果是一样的，但过程更安全。
 	
+### 6.2解决冲突
+	合并分支时，当文件产生冲突，必须手动解决冲突后再提交。
+	Git 用<<<<<<<，=======，>>>>>>>标记出不同分支的内容
+	用带参数的git log也可以看到分支的合并情况： git log --graph --pretty=oneline --abbrev-commit
+	当 Git 无法自动合并分支时，就必须首先解决冲突。解决冲突后，再提交，合并完成。
+	用 git log --graph 命令可以看到分支合并图。
+	
+### 6.3分支管理策略
+	合并分支时，如果可能，Git 会用 Fast forward 模式，但这种模式下，删除分支后，会丢掉分支信息。
+	如果要强制禁用Fast forward模式，Git就会在merge时生成一个新的commit，这样，从分支历史上就可以看出分支信息。
+	禁用 Fast forward ： git merge --no-ff -m "merge with no-ff" branchname 
+	因为本次合并要创建一个新的commit，所以加上-m参数，把commit描述写进去。
+	git log 查看历史将看到合并历史
+	分支策略：
+		在实际开发中，我们应该按照几个基本原则进行分支管理：
+		首先，master分支应该是非常稳定的，也就是仅用来发布新版本，平时不能在上面干活；
+		干活都在dev分支上，也就是说，dev分支是不稳定的，
+		到某个时候，比如1.0版本发布时，再把dev分支合并到master上，在master分支发布1.0版本；
+		每个人都在dev分支上干活，每个人都有自己的分支，时不时地往dev分支上合并就可以了。
+		团队合作的分支看起来就像这样：
+		O-————-——————————————————————————O————————————————————————O------------master 
+		 \								/					     /
+		  O——————————————O—————————————O—————————O——————————————O————O---------dev 
+		  /\		    / \           /         /              /    /
+		  \ O——————————O——/——————————O————O————/————O—————————O————/———O-------michoel
+		   \             |                    /                   /       
+			O————————————O——————————O————————O———————————————————O-------------bob
+			
+### 6.4 Bug 分支
+	在 Git 中，由于分支是如此的强大，所以，每个bug都可以通过一个新的临时分支来修复，修复后，合并分支，然后将临时分支删除。
+	Git 还提供了一个 stash 功能，可以把当前工作现场“储藏”起来，等以后恢复现场后继续工作： git stash
+	首先确定要在哪个分支上修复bug，假定需要在 master 分支上修复，就从 master 创建临时分支，
+	修复完成后，切换到 master 分支，并完成合并，最后删除 issue-101 分支。
+	git stash list 命令查看缓存区：
+	恢复两个办法： 
+	一是用 git stash apply 恢复，但是恢复后，stash 内容并不删除，你需要用 git stash drop 来删除；
+	另一种方式是用git stash pop，恢复的同时把stash内容也删了。
+	
+### 6.5 Feature 分支
+	每添加一个新功能，最好新建一个 feature 分支，在上面开发，完成后，合并，最后，删除该 feature 分支。
+	如果开发完成但未合并分支，可以删除 feature 分支，但 git branch -d feature 不能删除，因为没有合并分支，
+	需要强行删除， git branch -D feature
+	
+### 6.6多人协作
+	当从远程仓库克隆时，实际上 Git 自动把本地的 master 分支和远程的 master 分支对应起来了，并且，远程仓库的默认名称是 origin。
+	要查看远程库的信息，用 git remote： 用 git remote -v 显示更详细的信息。
+	
+	#### 推送分支：
+	推送分支，就是把该分支上的所有本地提交推送到远程库。
+	推送时，要指定本地分支，这样，Git就会把该分支推送到远程库对应的远程分支上： git push origin master
+	
+	#### 抓取分支：
+	当从远程库 clone 时，默认情况下，只能看到本地的master分支，
+	要在 dev 分支上开发，就必须创建远程 origin 的 dev 分支到本地： git checkout -b dev origin/dev
+	
+	#### 多人协作模式：
+	1：首先，可以试图用 git push origin branch-name 推送自己的修改；
+	2：如果推送失败，则因为远程分支比你的本地更新，需要先用 git pull 试图合并；
+	3：如果合并有冲突，则解决冲突，并在本地提交；
+	4：没有冲突或者解决掉冲突后，再用 git push origin branch-name 推送就能成功！
+	
+	如果 git pull 提示“no tracking information”，则说明本地分支和远程分支的链接关系没有创建，
+	用命令 git branch --set-upstream branch-name origin/branch-name。
+		   git branch --set-upstream-to=origin/<branch> dev
+		   
+	
+
+
 	
 	
 	
