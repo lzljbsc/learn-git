@@ -159,7 +159,7 @@ learn git &amp; github
 		  /\            / \           /         /              /    /
 		  \ O——————————O——/——————————O————O————/————O—————————O————/———O-------michoel
 		   \             |                    /                   /
-	            O————————————O——————————O————————O———————————————————O-------------bob
+		    O————————————O——————————O————————O———————————————————O-------------bob
 			
 ### 6.4 Bug 分支
 	在 Git 中，由于分支是如此的强大，所以，每个bug都可以通过一个新的临时分支来修复，修复后，合并分支，然后将临时分支删除。
@@ -198,27 +198,75 @@ learn git &amp; github
 	用命令 git branch --set-upstream branch-name origin/branch-name。
 		   git branch --set-upstream-to=origin/<branch> dev
 		   
+## 7.标签管理
+	发布一个版本时，我们通常先在版本库中打一个标签（tag），这样，就唯一确定了打标签时刻的版本。
+	将来无论什么时候，取某个标签的版本，就是把那个打标签的时刻的历史版本取出来。
+	所以，标签也是版本库的一个快照。
+
+### 7.1创建标签
+	在Git中打标签非常简单，首先，切换到需要打标签的分支上： git checkout branch-name
+	然后，敲命令 git tag <name> 就可以打一个新标签：
+	可以用命令git tag查看所有标签：
+	默认标签是打在最新提交的 commit 上的。
+	如果为之前的 commit 打标签，找到历史提交的 commit id ：git tag <name> commit id
+	标签不是按时间顺序列出，而是按字母排序的。
+	用git show <tagname>查看标签信息。
+	可以创建带有说明的标签，用-a指定标签名，-m指定说明文字：git tag -a <name> -m "message" commit id
 	
+	git tag -s <tagname> -m "blablabla..."可以用PGP签名标签。
+	
+### 7.2操作标签
+	如果标签打错了，也可以删除：git tag -d <name>
+	因为创建的标签都只存储在本地，不会自动推送到远程。所以，打错的标签可以在本地安全删除。
+	如果要推送某个标签到远程，使用命令：git push origin <tagname>：
+	或者，一次性推送全部尚未推送到远程的本地标签：git push origin --tags
+	如果标签已经推送到远程，要删除远程标签就麻烦一点，先从本地删除：git tag -d <name>
+	然后，从远程删除。删除命令也是 push ，格式如下：git push origin :refs/tags/<name>
+	要看看是否真的从远程库删除了标签，可以登陆GitHub查看。
+	命令 git push origin <tagname> 可以推送一个本地标签；
+	命令 git push origin --tags 可以推送全部未推送过的本地标签；
+	命令 git tag -d <tagname> 可以删除一个本地标签；
+	命令 git push origin :refs/tags/<tagname> 可以删除一个远程标签。
+	
+## 8.使用 GitHub
+	在 GitHub 上，可以任意Fork开源仓库；
+	自己拥有 Fork 后的仓库的读写权限；
+	可以推送 pull request 给官方仓库来贡献代码。
+	
+## 9.自定义Git
+	Git有很多可配置项。
+	比如，让Git显示颜色，会让命令输出看起来更醒目：git config --global color.ui true
 
-
+### 9.1忽略特殊文件
+	在Git工作区的根目录下创建一个特殊的.gitignore文件，然后把要忽略的文件名填进去，Git就会自动忽略这些文件。
+	不需要从头写.gitignore文件，GitHub已经为我们准备了各种配置文件，只需要组合一下就可以使用了。
+	所有配置文件可以直接在线浏览：https://github.com/github/gitignore
+	忽略文件的原则是：
+	1.忽略操作系统自动生成的文件，比如缩略图等；
+	2.忽略编译生成的中间文件、可执行文件等，也就是如果一个文件是通过另一个文件自动生成的，那自动生成的文件就没必要放进版本库，比如Java编译产生的.class文件；
+	3.忽略你自己的带有敏感信息的配置文件，比如存放口令的配置文件。
+	
+	强制添加已忽略的某类文件：git add -f files
+	可以用 git check-ignore 命令检查 .gitignore 哪个规则写错了。
+	
+	名字后面添加 / 表示忽略目录。
+	
+### 9.2配置别名
+	使用 st 表示 status ：git config --global alias.st status
+	--global 参数是全局参数，也就是这些命令在这台电脑的所有 Git 仓库下都有用。
+	
+	配置文件
+	配置 Git 的时候，加上 --global 是针对当前用户起作用的，如果不加，那只针对当前的仓库起作用。
+	每个仓库的 Git 配置文件都放在 .git/config 文件中：
+	别名就在 [alias] 后面，要删除别名，直接把对应的行删掉即可。
+	当前用户的 Git 配置文件放在用户主目录下的一个隐藏文件 .gitconfig 中。
+	
+### 9.3搭建 Git 服务器
+	https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/00137583770360579bc4b458f044ce7afed3df579123eca000
 	
 	
+Git官方网站：http://git-scm.com
+
 	
-	
-	
-	
-	
-	
-	
-
-
-
-
-
-
-
-
-
-
 
 
