@@ -159,7 +159,7 @@ learn git &amp; github
 		  /\            / \           /         /              /    /
 		  \ O——————————O——/——————————O————O————/————O—————————O————/———O-------michoel
 		   \             |                    /                   /
-	            O————————————O——————————O————————O———————————————————O-------------bob
+		    O————————————O——————————O————————O———————————————————O-------------bob
 			
 ### 6.4 Bug 分支
 	在 Git 中，由于分支是如此的强大，所以，每个bug都可以通过一个新的临时分支来修复，修复后，合并分支，然后将临时分支删除。
@@ -198,13 +198,38 @@ learn git &amp; github
 	用命令 git branch --set-upstream branch-name origin/branch-name。
 		   git branch --set-upstream-to=origin/<branch> dev
 		   
+## 7.标签管理
+	发布一个版本时，我们通常先在版本库中打一个标签（tag），这样，就唯一确定了打标签时刻的版本。
+	将来无论什么时候，取某个标签的版本，就是把那个打标签的时刻的历史版本取出来。
+	所以，标签也是版本库的一个快照。
+
+### 7.1创建标签
+	在Git中打标签非常简单，首先，切换到需要打标签的分支上： git checkout branch-name
+	然后，敲命令 git tag <name> 就可以打一个新标签：
+	可以用命令git tag查看所有标签：
+	默认标签是打在最新提交的 commit 上的。
+	如果为之前的 commit 打标签，找到历史提交的 commit id ：git tag <name> commit id
+	标签不是按时间顺序列出，而是按字母排序的。
+	用git show <tagname>查看标签信息。
+	可以创建带有说明的标签，用-a指定标签名，-m指定说明文字：git tag -a <name> -m "message" commit id
+	
+	git tag -s <tagname> -m "blablabla..."可以用PGP签名标签。
+	
+### 7.2操作标签
+	如果标签打错了，也可以删除：git tag -d <name>
+	因为创建的标签都只存储在本地，不会自动推送到远程。所以，打错的标签可以在本地安全删除。
+	如果要推送某个标签到远程，使用命令：git push origin <tagname>：
+	或者，一次性推送全部尚未推送到远程的本地标签：git push origin --tags
+	如果标签已经推送到远程，要删除远程标签就麻烦一点，先从本地删除：git tag -d <name>
+	然后，从远程删除。删除命令也是 push ，格式如下：git push origin :refs/tags/<name>
+	要看看是否真的从远程库删除了标签，可以登陆GitHub查看。
+	命令 git push origin <tagname> 可以推送一个本地标签；
+	命令 git push origin --tags 可以推送全部未推送过的本地标签；
+	命令 git tag -d <tagname> 可以删除一个本地标签；
+	命令 git push origin :refs/tags/<tagname> 可以删除一个远程标签。
 	
 
 
-	
-	
-	
-	
 	
 	
 	
